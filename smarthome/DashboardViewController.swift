@@ -38,8 +38,8 @@ class DashboardViewController: UIViewController {
         })
     }
     func getSensorsValue(homeid:String) {
-        Database.database().reference().child("Home").child(homeid).child("sensors").observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot)
+        Database.database().reference().child("Home").child(homeid).child("sensors").observeSingleEvent(of: .value, with: { [weak self] snapshot in
+            guard let self = self else { return }
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 self.tempvalue.text = "\(dictionary["temperature"] as! Int)"
                 self.brightnessValue.text = "\(dictionary["brightness"] as! Int)"
